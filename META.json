@@ -1,0 +1,50 @@
+{
+   "abstract" : "Convert between Ethiopic wordspaces and ASCII spaces.",
+   "author" : [
+      "Daniel Yacob <dyacob\\@cpan.org>"
+   ],
+   "dynamic_config" : 1,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Text-Convert-Wordspace",
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0.42"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "perl" : "v5.6.1"
+         }
+      }
+   },
+   "provides" : {
+      "Convert::Number::Digits" : {
+         "file" : "lib/Text/Convert/Wordspace.pm",
+         "version" : "0.01"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/dyacob/Text-Convert-Wordspace/issues"
+      },
+      "homepage" : "https://github.com/dyacob/Text-Convert-Wordspace",
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ],
+      "repository" : {
+         "url" : "https://github.com/dyacob/Text-Convert-Wordspace.git"
+      }
+   },
+   "version" : 0,
+   "x_authority" : "cpan:dyacob",
+   "x_serialization_backend" : "JSON::PP version 4.06"
+}

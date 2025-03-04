@@ -1,0 +1,13 @@
+Build.PL
+Changes
+Changes.md
+CONTRIBUTING.md
+LICENSE
+MANIFEST
+README.md
+SECURITY.md
+# examples/convert.pl
+lib/Text/Convert/Wordspace.pm
+# t/01wordspace.t
+META.yml
+META.json
