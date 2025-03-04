@@ -12,10 +12,16 @@ use vars qw( $VERSION );
 
 $VERSION = "0.01";
 
-local $spacesBetweenLetters = qr/([\u1200-\u135A\u1380-\u138F\u2D80-\u2DDE\uAB01-\uAB2E])( +)([\u1200-\u135A\u1380-\u138F\u2D80-\u2DDE\uAB01-\uAB2E])/;
-local $spacesBetweenLetterAndNumberOrOpenPunct = qr/([\u1200-\u135A\u1380-\u138F\u2D80-\u2DDE\uAB01-\uAB2E])( +)([{\[(\uAB\u2039\u201C\u2018\u1369-\u137C])/;
-local $spacesBetweenNumberOrClosePunctAndLetter = qr/([\u2019\u201D\u203A\uBB)\]}\u1369-\u137C])( +)([\u1200-\u135A\u1380-\u138F\u2D80-\u2DDE\uAB01-\uAB2E])/;
-local $endOfLine = qr/([\u1200-\u135A\u1380-\u138F\u2D80-\u2DDE\uAB01-\uAB2E\u2019\u201D\u203A\uBB\u29\u5D\u7D])\n/;
+#
+# convert this to UTF-8
+#
+
+# A sequence of one or more spaces is treated as a single space.
+local $spacesBetweenLetters = qr/([ሀ-ፚᎀ-ᎏⶀ-ⷞꬁ-ꬮ])( +)([ሀ-ፚᎀ-ᎏⶀ-ⷞꬁ-ꬮ])/;
+local $spacesBetweenLetterAndNumberOrOpenPunct = qr/([ሀ-ፚᎀ-ᎏⶀ-ⷞꬁ-ꬮ])( +)([{\[(«‹“‘፩-፼]))/;
+local $spacesBetweenNumberOrClosePunctAndLetter = qr/([’”›»)\]}፩-፼])( +)([ሀ-ፚᎀ-ᎏⶀ-ⷞꬁ-ꬮ])/;
+# A wordspace will be appended to the end of line (a line ending with a hard return) that does not end with punctuation.
+local $endOfLine = qr/([ሀ-ፚᎀ-ᎏⶀ-ⷞꬁ-ꬮ’”›»)]}])\n/;
 
 local $fromSpaceToWordspace = 1;
 }
@@ -32,8 +38,13 @@ local $fromSpaceToWordspace = 1;
 # Closing Punctuation: [\u2019\u201D\u203A\uBB\u29\u5D\u7D]  /  ’”›»)]}
 
 
+#
+#  make this an OO interface where $fromSpaceToWordspace is set as a property
+#
+#
 
-sub setSubstitutionDirection
+
+sub setSubstitution
 {
 	my($value) = shift;
 	$fromSpaceToWordspace = ( $value == "fromAscii" )
@@ -42,19 +53,26 @@ sub setSubstitutionDirection
 		;
 }
 
-sub spaceToWordspace
+sub convert
+{
+
+	( $fromSpaceToWordspace ) ? toWordspace( @_ ) : toSpace( @_ );
+
+}
+
+sub toWordspace
 {
 	$_ = shift;
 	s/$spacesBetweenLetters/$1፡$3/g
 	s/$spacesBetweenLetterAndNumberOrOpenPunct/$1፡$3/g;
 	s/$spacesBetweenNumberOrClosePunctAndLetter/$1፡$3/g;
 	s/$endOfLine/$1፡\n/g;
-	s/([\u1200-\u135A\u1380-\u138F\u2D80-\u2DDE\uAB01-\uAB2E])$/'$1፡/;
+	s/([ሀ-ፚᎀ-ᎏⶀ-ⷞꬁ-ꬮ])$/$1፡/;
 
 	$_;
 }
 
-sub wordspaceToSpace
+sub toSpace
 {
 	$_ = shift;
 	s/፡፡/።/g;  # sneak in some cleanup
